@@ -32,7 +32,7 @@
             <td>{{ record.state }}</td>
             <td>{{ record.zipcode }}</td>
             <td>{{ record.created_at }}</td>
-            <td>{{ record.id  }}</td>
+            <td><a href="{% url 'record' record.id %}">{{ record.id  }}</a></td>
             </tr>
             {% endfor %}
         {% endif %}
@@ -43,11 +43,13 @@
 
         
 {% else %}
-            <h1>Please log in to view your records.</h1>
-            <p>If you don't have an account, please sign up.</p>
         {% endif %}
         
         {% if not user.is_authenticated %}
+        <div class="col-md-6 offset-md-3">
+        <h1>Login</h1>
+        
+        <br />
         <form method="post" action="{% url 'home' %}">
             {% csrf_token %}
             <div class="mb-3">
@@ -59,5 +61,6 @@
                 <input type="password" class="form-control" name="password" required>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
+            </div>
 {% endif %}
 {% endblock %}
