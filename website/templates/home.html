@@ -1,24 +1,63 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="col-md-6 offset-md-3">
-
-{% if user.is_authenticated %}
+    {% if user.is_authenticated %}
     <h1>Welcome, {{ user.username }}!</h1>
-{% else %}    
-<h1>Login</h1>
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Address</th>
+                <th scope="col">City</th>
+                <th scope="col">State</th>
+                <th scope="col">Zipcode</th>
+                <th scope="col">Created At</th>
+                <th scope="col">ID</th>
 
-<form method="post" action="{% url 'home' %}">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" name="username" required>
-    </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control"  name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-</div>
+            </tr>
+        </thead>
+        <tbody>
+            
+        {% if records %}
+            {% for record in records %}
+            <tr>
+            <td>{{ record.first_name }}
+            {{ record.last_name }}</td>
+            <td>{{ record.email }}</td>
+            <td>{{ record.phone }}</td>
+            <td>{{ record.address }}</td>
+            <td>{{ record.city }}</td>
+            <td>{{ record.state }}</td>
+            <td>{{ record.zipcode }}</td>
+            <td>{{ record.created_at }}</td>
+            <td>{{ record.id  }}</td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+            
+        </tbody>
+        </thead>
+
+
+        
+{% else %}
+            <h1>Please log in to view your records.</h1>
+            <p>If you don't have an account, please sign up.</p>
+        {% endif %}
+        
+        {% if not user.is_authenticated %}
+        <form method="post" action="{% url 'home' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
 {% endif %}
 {% endblock %}

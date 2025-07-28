@@ -2,9 +2,11 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import signUpForm
-
+from .models import Record
 # Create your views here.
 def home(request):
+    records = Record.objects.all()  # Fetch all records from the database
+    
     #check to see if the user is authenticated
     if request.method=='POST':
         username= request.POST.get('username')
@@ -20,7 +22,7 @@ def home(request):
             return redirect('home')
     else:
 
-        return render(request, 'home.html',{})  # Render the home page template
+        return render(request, 'home.html',{'records':records})  # Render the home page template
 
 # def login_user(request):
 #     pass
